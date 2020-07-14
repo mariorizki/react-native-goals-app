@@ -16,7 +16,10 @@ export default function App() {
   };
 
   const addGoalHandler = () => {
-    setGoals(currentGoals => [...currentGoals, enteredGoal]);
+    if (enteredGoal !== '') {
+      setGoals(currentGoals => [...currentGoals, enteredGoal]);
+      setEnteredGoal('');
+    }
   };
 
   return (
@@ -27,6 +30,7 @@ export default function App() {
           placeholder="Add goals here..."
           value={enteredGoal}
           onChangeText={goalInputHandler}
+          onSubmitEditing={addGoalHandler}
         />
         <TouchableOpacity onPress={addGoalHandler}>
           <View style={styles.addButton}>
@@ -34,9 +38,11 @@ export default function App() {
           </View>
         </TouchableOpacity>
       </View>
-      <View>
+      <View style={styles.goalContainer}>
         {goals.map(goal => (
-          <Text key={goal}>{goal}</Text>
+          <View style={styles.goal} key={goal}>
+            <Text>{goal}</Text>
+          </View>
         ))}
       </View>
     </View>
@@ -60,7 +66,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     marginLeft: 30,
-    backgroundColor: '#7b1fa2',
+    backgroundColor: '#ac80a0',
     width: 70,
     height: 40,
     borderRadius: 25,
@@ -69,5 +75,15 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fafafa'
+  },
+  goalContainer: {
+    marginTop: 30
+  },
+  goal: {
+    backgroundColor: '#fff',
+    elevation: 3,
+    padding: 10,
+    marginBottom: 10,
+    borderRadius: 10
   }
 });
